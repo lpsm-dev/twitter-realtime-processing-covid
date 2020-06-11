@@ -10,7 +10,7 @@ x-logging: &default-logging
     max-size: "500k"
     max-file: "20"
 
-x-entrypoint: &default-entrypoint
+x-entrypoint-kibana: &default-entrypoint-kibana
   entrypoint: >
     /bin/sh -c "
       set -e
@@ -18,9 +18,46 @@ x-entrypoint: &default-entrypoint
       /bin/bash || exit 0
     "
 
+x-entrypoint-kafka: &default-entrypoint-kafka
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && /etc/confluent/docker/run
+      /bin/bash || exit 0
+    "
+
+x-entrypoint-kafka-connect-ui: &default-entrypoint-kafka-connect-ui
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && /run.sh
+      /bin/bash || exit 0
+    "
+
+x-entrypoint-kafka-manager: &default-entrypoint-kafka-manager
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && /kafka-manager-1.3.1.8/start-kafka-manager.sh
+      /bin/bash || exit 0
+    "
+
+x-entrypoint-python: &default-entrypoint-python
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
+      /bin/bash || exit 0
+    "
+
 x-volumes: &default-volumes
   volumes:
     - ./scripts/wait:/usr/local/bin/wait
+
+x-volumes-kafka: &default-volumes-kafka
+  volumes:
+    - ./scripts/wait:/usr/local/bin/wait
+    - ./zk-single-kafka-single/kafka/data:/var/lib/kafka/data
 
 # ==============================================================================
 # SERVICES
@@ -55,7 +92,7 @@ services:
     image: docker.elastic.co/kibana/kibana:7.2.0
     container_name: kibana
     env_file: [ "./.env", "./envs/kibana.env" ]
-    <<: *default-entrypoint
+    <<: *default-entrypoint-kibana
     ports:
       - target: 5601
         published: 5601
@@ -71,11 +108,11 @@ services:
     depends_on: [ "elasticsearch" ]
     <<: *default-volumes
     networks: [ "realtime-processing" ]
-    
+
 # ==============================================================================
 # KAFKA
 # ==============================================================================
-  
+
   zookeeper:
     image: zookeeper:3.4.9
     container_name: zookeeper
@@ -94,6 +131,7 @@ services:
     image: confluentinc/cp-kafka:5.3.0
     container_name: kafka
     env_file: [ "./.env", "./envs/kafka.env" ]
+    <<: *default-entrypoint-kafka
     ports:
       - target: 9092
         published: 9092
@@ -102,9 +140,9 @@ services:
     restart: on-failure
     logging: *default-logging
     depends_on: [ "zookeeper" ]
-    volumes: [ "./zk-single-kafka-single/kafka/data:/var/lib/kafka/data" ]
+    <<: *default-volumes-kafka
     networks: [ "realtime-processing" ]
-  
+
   kafka-connect:
     image: confluentinc/cp-kafka-connect:5.3.0
     container_name: kafka-connect
@@ -124,6 +162,7 @@ services:
     image: landoop/kafka-connect-ui:0.9.4
     container_name: kafka-connect-ui
     env_file: [ "./.env", "./envs/kafka-connect-ui.env" ]
+    <<: *default-entrypoint-kafka-connect-ui
     ports:
       - target: 8000
         published: 8003
@@ -132,12 +171,14 @@ services:
     restart: on-failure
     logging: *default-logging
     depends_on: [ "kafka-connect" ]
+    <<: *default-volumes
     networks: [ "realtime-processing" ]
 
   kafka-manager:
     image: sheepkiller/kafka-manager:latest
     container_name: kafka-manager
     env_file: [ "./.env", "./envs/kafka-manager.env" ]
+    <<: *default-entrypoint-kafka-manager
     ports:
       - target: 9000
         published: 9000
@@ -146,7 +187,52 @@ services:
     restart: on-failure
     logging: *default-logging
     depends_on: [ "zookeeper", "kafka" ]
+    <<: *default-volumes
     networks: [ "realtime-processing" ]
+
+# ==============================================================================
+# PYTHON
+# ==============================================================================
+
+  producer:
+    container_name: producer
+    env_file: [ "./.env", "./envs/python.env" ]
+    build:
+      context: ./${PATH_DOCKERFILE}
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    <<: *default-entrypoint-python
+    healthcheck:
+      test: nc -z kafka 9092 || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 10
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "kafka" ]
+    <<: *default-volumes
+    nnetworks: [ "realtime-processing" ]
+
+  consumer:
+    container_name: consumer
+    env_file: [ "./.env", "./envs/python.env" ]
+    build:
+      context: ./${PATH_DOCKERFILE}
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    <<: *default-entrypoint-python
+    healthcheck:
+      test: nc -z kafka 9092 || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 10
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "kafka" ]
+    <<: *default-volumes
+    nnetworks: [ "realtime-processing" ]
 
 # ==============================================================================
 # NETWORKS
