@@ -1,0 +1,165 @@
+version: "3.8"
+
+# ==============================================================================
+# ANCHORS
+# ==============================================================================
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "500k"
+    max-file: "20"
+
+x-entrypoint: &default-entrypoint
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && /usr/local/bin/kibana-docker
+      /bin/bash || exit 0
+    "
+
+x-volumes: &default-volumes
+  volumes:
+    - ./scripts/wait:/usr/local/bin/wait
+
+# ==============================================================================
+# SERVICES
+# ==============================================================================
+
+services:
+
+# ==============================================================================
+# ELASTICSEARCH + KIBANA
+# ==============================================================================
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch
+    env_file: [ "./.env", "./envs/elasticsearch.env" ]
+    ports:
+      - target: 9200
+        published: 9200
+        protocol: tcp
+        mode: host
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 10
+    restart: on-failure
+    logging: *default-logging
+    volumes: [ "elasticsearch:/usr/share/elasticsearch/data" ]
+    networks: [ "realtime-processing" ]
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    container_name: kibana
+    env_file: [ "./.env", "./envs/kibana.env" ]
+    <<: *default-entrypoint
+    ports:
+      - target: 5601
+        published: 5601
+        protocol: tcp
+        mode: host
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:5601/ || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 10
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "elasticsearch" ]
+    <<: *default-volumes
+    networks: [ "realtime-processing" ]
+    
+# ==============================================================================
+# KAFKA
+# ==============================================================================
+  
+  zookeeper:
+    image: zookeeper:3.4.9
+    container_name: zookeeper
+    env_file: [ "./.env", "./envs/zookeeper.env" ]
+    ports:
+      - target: 2181
+        published: 2181
+        protocol: tcp
+        mode: host
+    restart: on-failure
+    logging: *default-logging
+    volumes: [ "/zk-single-kafka-single/zookeeper/data:/data", "./zk-single-kafka-single/zookeeper/datalog:/datalog" ]
+    networks: [ "realtime-processing" ]
+
+  kafka:
+    image: confluentinc/cp-kafka:5.3.0
+    container_name: kafka
+    env_file: [ "./.env", "./envs/kafka.env" ]
+    ports:
+      - target: 9092
+        published: 9092
+        protocol: tcp
+        mode: host
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "zookeeper" ]
+    volumes: [ "./zk-single-kafka-single/kafka/data:/var/lib/kafka/data" ]
+    networks: [ "realtime-processing" ]
+  
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:5.3.0
+    container_name: kafka-connect
+    env_file: [ "./.env", "./envs/kafka-connect.env" ]
+    ports:
+      - target: 8083
+        published: 8083
+        protocol: tcp
+        mode: host
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "zookeeper", "kafka" ]
+    volumes: [ "./connectors:/etc/kafka-connect/jars/" ]
+    networks: [ "realtime-processing" ]
+
+  kafka-connect-ui:
+    image: landoop/kafka-connect-ui:0.9.4
+    container_name: kafka-connect-ui
+    env_file: [ "./.env", "./envs/kafka-connect-ui.env" ]
+    ports:
+      - target: 8000
+        published: 8003
+        protocol: tcp
+        mode: host
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "kafka-connect" ]
+    networks: [ "realtime-processing" ]
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager:latest
+    container_name: kafka-manager
+    env_file: [ "./.env", "./envs/kafka-manager.env" ]
+    ports:
+      - target: 9000
+        published: 9000
+        protocol: tcp
+        mode: host
+    restart: on-failure
+    logging: *default-logging
+    depends_on: [ "zookeeper", "kafka" ]
+    networks: [ "realtime-processing" ]
+
+# ==============================================================================
+# NETWORKS
+# ==============================================================================
+
+networks:
+  realtime-processing:
+    driver: bridge
+
+# ==============================================================================
+# VOLUMES
+# ==============================================================================
+
+volumes:
+  elasticsearch:
+    driver: local

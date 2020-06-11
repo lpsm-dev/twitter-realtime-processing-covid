@@ -1,0 +1,5 @@
+kafka-python==2.0.1
+tweepy==3.8.0
+wordcloud==1.7.0
+matplotlib==3.2.1
+ipython==7.15.0
