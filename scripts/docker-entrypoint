@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+# First arg is `-f` or `--some-option`or first arg is `something.conf`
+if [ "${1#-}" != "$1" ] || [ "${1%.conf}" != "$1" ]; then
+	set -- sh "$@"
+fi
+
+# Allow the container to be started with `--user`
+if [ "$1" = 'sh' -a "$(id -u)" = '0' ]; then
+	find . \! -user python -exec chown python '{}' +
+	exec su-exec python "$0" "$@"
+fi
+
+exec "$@"
