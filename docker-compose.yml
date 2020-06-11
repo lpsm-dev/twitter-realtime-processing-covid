@@ -196,7 +196,7 @@ services:
 
   producer:
     container_name: producer
-    env_file: [ "./.env", "./envs/python.env" ]
+    env_file: [ "./.env", "./envs/python.env", "./envs/producer.env" ]
     build:
       context: ./${PATH_DOCKERFILE}
       dockerfile: Dockerfile
@@ -212,11 +212,11 @@ services:
     logging: *default-logging
     depends_on: [ "kafka" ]
     <<: *default-volumes
-    nnetworks: [ "realtime-processing" ]
+    networks: [ "realtime-processing" ]
 
   consumer:
     container_name: consumer
-    env_file: [ "./.env", "./envs/python.env" ]
+    env_file: [ "./.env", "./envs/python.env", "./envs/consumer.env"  ]
     build:
       context: ./${PATH_DOCKERFILE}
       dockerfile: Dockerfile
@@ -232,7 +232,7 @@ services:
     logging: *default-logging
     depends_on: [ "kafka" ]
     <<: *default-volumes
-    nnetworks: [ "realtime-processing" ]
+    networks: [ "realtime-processing" ]
 
 # ==============================================================================
 # NETWORKS

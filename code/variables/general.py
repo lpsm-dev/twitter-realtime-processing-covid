@@ -19,4 +19,4 @@ logger_name = config.get_env("LOGGER_NAME") if config.get_env("LOGGER_NAME") els
 
 logger = Log(log_path, log_file, log_level, logger_name).logger
 
-realtime, vesion = args["realtime"], args["version"]
+realtime, vesion = args["realtime"].capitalize(), args["version"]

@@ -27,6 +27,7 @@ RUN set -ex && apk update && \
 
 RUN apk add --update --no-cache \
       bash=5.0.11-r1 \
+      netcat-openbsd=1.130-r1 \
       'su-exec>=0.2'
 
 COPY --chown=python:python --from=install-env [ "/root/.local", "/usr/local" ]

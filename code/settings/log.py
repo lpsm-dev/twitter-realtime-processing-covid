@@ -4,7 +4,10 @@ import logging
 import coloredlogs
 from typing import NoReturn, Text
 from tools.os import OS
-from settings.handlers import BaseFileHandler, ContextHandler
+from settings.handlers import (BaseFileHandler,
+  BaseStreamHandler,
+  ContextHandler
+)
 
 class SingletonLogger(type):
 
@@ -35,7 +38,7 @@ class Log(OS, metaclass=SingletonLogger):
     self._logger.setLevel(self.log_level)
     self._base_configuration_log_colored()
     self._logger.addHandler(ContextHandler(
-      BaseFileHandler()
+      BaseStreamHandler()
     ).get_handler(
       log_file=self.log_file,
       log_level=self.log_level,
