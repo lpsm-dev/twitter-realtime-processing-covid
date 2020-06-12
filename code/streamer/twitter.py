@@ -50,26 +50,24 @@ class TwitterListener(StreamListener):
   def on_connect(self) -> NoReturn:
     logger.info("You are now connected to the Twitter streaming API.")
 
-  def on_data(self, data):
+  def on_data(self, data: Text) -> NoReturn:
     try:
       parsed = loads(data)
-      if "user" in parsed and "location" in parsed["user"]:
-        if parsed["user"]["location"] != None:
-          tweet = dumps({
-            "user_name": parsed["user"]["screen_name"],
-            "user_tweet": parsed["text"],
-            "followers": parsed["user"]["followers_count"],
-            "friends": parsed["user"]["friends_count"],
-            "data_collection": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-          })
-          logger.info("Send message to Kafka Producer...")
-          self.producer.send_message(tweets_topic, tweet)
-          logger.info("Sleeping 3 seconds...")
-          sleep(3)
+      tweet = dumps({
+        "user_name": parsed["user"]["screen_name"],
+        "followers": parsed["user"]["followers_count"],
+        "friends": parsed["user"]["friends_count"],
+        "data_collection": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+      })
+      logger.info("Send message to Kafka Producer...")
+      self.producer.send_message(tweets_topic, tweet.encode("utf-8"))
+      logger.info("Sleeping 3 seconds...")
+      sleep(3)
+    except BaseException as error:
+      logger.error(f"BaseException Twitter On Data - {error}")
     except Exception as error:
-      logger.error(f"Error Twitter On Data - {error}")
-    else:
-      return True
+      logger.error(f"Exception Twitter On Data - {error}")
+    return True
 
   def on_error(self, status_code) -> bool:
     if status_code == 420:
