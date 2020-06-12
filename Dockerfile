@@ -12,30 +12,23 @@ RUN pip install --upgrade pip && \
 FROM base
 
 LABEL maintainer="Lucca Pessoa da Silva Matos - luccapsm@gmail.com" \
-        org.label-schema.version="1.0.0" \
-        org.label-schema.release-data="11-06-2020" \
+        org.label-schema.version="1.1.0" \
+        org.label-schema.release-data="12-06-2020" \
         org.label-schema.url="https://github.com/lpmatos" \
         org.label-schema.alpine="https://alpinelinux.org/" \
         org.label-schema.python="https://www.python.org/" \
         org.label-schema.name="Twitter realtime processing tweets Covid-19 using Kafka"
 
-ENV HOME=/usr/src/code
-
-RUN set -ex && apk update && \
-    addgroup -g 1000 python && adduser -u 999 -G python -h ${HOME} -s /bin/sh -D python && \
-    mkdir -p ${HOME} && chown -hR python:python ${HOME}
+RUN set -ex && apk update
 
 RUN apk add --update --no-cache \
       bash=5.0.11-r1 \
-      netcat-openbsd=1.130-r1 \
-      'su-exec>=0.2'
+      netcat-openbsd=1.130-r1
 
-COPY --chown=python:python --from=install-env [ "/root/.local", "/usr/local" ]
+COPY --from=install-env [ "/root/.local", "/usr/local" ]
 
-COPY [ "./scripts/docker-entrypoint", "/usr/local/bin" ]
+WORKDIR /usr/src/code
 
-WORKDIR ${HOME}
-
-COPY --chown=python:python [ "./code", "." ]
+COPY [ "./code", "." ]
 
 RUN find ./ -iname "*.py" -type f -exec chmod a+x {} \; -exec echo {} \;;

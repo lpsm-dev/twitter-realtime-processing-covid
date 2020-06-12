@@ -1,6 +1,11 @@
-# importando as bibliotecas
+# -*- coding: utf-8 -*-
+
 import json
 from kafka import KafkaConsumer
+
+# ==============================================================================
+# GLOBAL
+# ==============================================================================
 
 brokers = ["localhost:9092"]
 topico = "dados-tweets"

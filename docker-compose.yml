@@ -34,14 +34,6 @@ x-entrypoint-kafka-connect-ui: &default-entrypoint-kafka-connect-ui
       /bin/bash || exit 0
     "
 
-x-entrypoint-python: &default-entrypoint-python
-  entrypoint: >
-    /bin/sh -c "
-      set -e
-        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
-      /bin/bash || exit 0
-    "
-
 x-volumes: &default-volumes
   volumes:
     - ./scripts/wait:/usr/local/bin/wait
