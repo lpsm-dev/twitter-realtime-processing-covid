@@ -70,20 +70,24 @@ services:
       - cluster.initial_master_nodes=elasticsearch,elasticsearch01
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
       - 'ES_JAVA_OPTS=-Xms2048m -Xmx2048m'
     ports:
       - target: 9200
         published: 9200
         protocol: tcp
         mode: host
-    privileged: true
     healthcheck:
       test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
       interval: 30s
       timeout: 30s
       retries: 10
-    volumes: [ "elasticsearch:/usr/share/elasticsearch/data" ]
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    privileged: true
+    restart: on-failure
+    volumes: [ "elasticsearch_1:/usr/share/elasticsearch/data" ]
     networks: [ "realtime-processing" ]
 
   elasticsearch01:
@@ -95,14 +99,14 @@ services:
       - cluster.initial_master_nodes=elasticsearch,elasticsearch01
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - 'ES_JAVA_OPTS=-Xms2048m -Xmx2048m'
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
     ulimits:
       memlock:
         soft: -1
         hard: -1
     privileged: true
-    volumes: [ "elasticsearch2:/usr/share/elasticsearch/data" ]
+    restart: on-failure
+    volumes: [ "elasticsearch_2:/usr/share/elasticsearch/data" ]
     networks: [ "realtime-processing" ]
 
   kibana:
@@ -261,7 +265,7 @@ networks:
 # ==============================================================================
 
 volumes:
-  elasticsearch:
+  elasticsearch_1:
     driver: local
-  elasticsearch2:
+  elasticsearch_2:
     driver: local

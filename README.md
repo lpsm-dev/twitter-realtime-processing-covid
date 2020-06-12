@@ -52,6 +52,12 @@ Down all services and delete all images.
 docker-compose down --rmi all
 ```
 
+### Environment file
+
+We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
+
+Copy the file .env-example to a .env file and replace the values inside of it.
+
 ### How to contribute
 
 >
