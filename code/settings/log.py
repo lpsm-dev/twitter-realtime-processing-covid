@@ -38,7 +38,7 @@ class Log(OS, metaclass=SingletonLogger):
     self._logger.setLevel(self.log_level)
     self._base_configuration_log_colored()
     self._logger.addHandler(ContextHandler(
-      BaseStreamHandler()
+      BaseFileHandler()
     ).get_handler(
       log_file=self.log_file,
       log_level=self.log_level,
