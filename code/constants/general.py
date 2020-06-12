@@ -7,11 +7,11 @@
 CLI = """
 examples:
 
-run consumer:
-twitter-realtime-processing --realtime consumer
-
-run producer:
+running producer:
 twitter-realtime-processing --realtime producer
+
+running consumer:
+twitter-realtime-processing --realtime consumer
 """
 
 # ==============================================================================
