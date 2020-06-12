@@ -70,15 +70,40 @@ git clone --depth 1 https://github.com/lpmatos/twitter-realtime-processing-covid
 
 This will give access on your **local machine**.
 
-### Environment file
+### Pre-Requisites
 
-We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
+To this project you yeed:
 
-Copy the file .env-example to a .env file and replace the values inside of it.
+* Python 3.8.
+* Docker and Docker Compose.
+* Kafka ecosystem.
+* Elasticsearch.
+* Kiabana
 
-### Install
+### Built with
 
-This fraud detection system is fully containerised. You will need [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/) to run it.
+- [Python](https://www.python.org/)
+- [Docker](https://docs.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+### How to use it?
+
+#### Locale
+
+1. Set the application environment variables.
+2. Install python packages in requirements.txt.
+3. Run docker-compose.yml to deploy all kafka and elastic ecosystem.
+4. Profit.
+
+#### Docker
+
+1. Set all environment variables in dot-env files.
+2. Creathe a docker network.
+3. Run docker-compose.yml to deploy all kafka and elastic ecosystem.
+4. Run docker-compose-tools.to run the application.
+5. Profit.
+
+This system is fully containerised. You will need [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/) to run it.
 
 You simply need to create a Docker network called `kafka-network` to enable communication between the Kafka cluster and the apps:
 
@@ -87,6 +112,46 @@ $ docker network create kafka-network
 ```
 
 All set!
+
+### Sending Data to Elasticsearch
+
+```
+{
+	"name": "elasticsearch-sink-kafka",
+	"config": {
+		"connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+		"type.name": "kafka-connect",
+		"key.converter.schemas.enable": "false",
+		"tasks.max": "1",
+		"topics": "dados-tweets",
+		"value.converter.schemas.enable": "false",
+		"key.ignore": "true",
+		"connection.url": " http://elasticsearch:9200",
+		"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"key.converter": "org.apache.kafka.connect.storage.StringConverter",
+		"schema.ignore": "true"
+	}
+}
+```
+
+### Environment variables
+
+**Name**  |  **Description**
+:---:  |  :---:
+**TWITTER_CONSUMER_KEY**  |  Twitter Consumer Key
+**TWITTER_CONSUMER_SECRET**  |  Twitter Consumer Secret
+**TWITTER_ACCESS_TOKEN**  |  Twitter Access Token
+**TWITTER_ACCESS_TOKEN_SECRET**  |  Twitter Access Token Secret
+**LOG_PATH**  |  Just the Log Path
+**LOG_FILE**  |  Just the Log File
+**LOG_LEVEL**  |  Just the Log Level
+**LOGGER_NAME**  |  Just the Logger name
+
+### Environment file
+
+We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
+
+Copy the file .env-example to a .env file and replace the values inside of it.
 
 ### 🐋 Development with Docker
 
@@ -182,3 +247,11 @@ Hey!! If you like this project or if you find some bugs feel free to contact me 
 ### Show your support
 
 Give a ⭐️ if this project helped you!
+
+### Project Status
+
+* ✔️ Finish
+
+---
+
+<p align="center">Feito com ❤️ by <strong>Lucca Pessoa :wave:</p>
