@@ -9,6 +9,7 @@ from variables.general import realtime, vesion, logger
 from constants.general import VERSION
 from typing import NoReturn
 from streamer.twitter import TwitterStreamer
+from core.consumer import TwitterConsumer
 
 # ==============================================================================
 # FUNCTIONS
@@ -23,13 +24,15 @@ def run() -> NoReturn:
   if realtime:
     if realtime == "Consumer":
       logger.info(f"This is {realtime}...")
+      consumer = TwitterConsumer()
+      consumer.apply()
     if realtime == "Producer":
       logger.info(f"This is {realtime}...")
       track = [
-        u"covid-19", u"corona",
-        u"covid", u"corona virus",
-        u"stay home", u"coronavirus",
-        u"pandemic"
+        "covid-19", "corona",
+        "covid", "corona virus",
+        "stay home", "coronavirus",
+        "pandemic"
       ]
       twitter_streamer = TwitterStreamer()
       twitter_streamer.stream_tweets(track)

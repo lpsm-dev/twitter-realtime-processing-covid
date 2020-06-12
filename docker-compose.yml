@@ -232,26 +232,6 @@ services:
     <<: *default-volumes
     networks: [ "realtime-processing" ]
 
-  consumer:
-    container_name: consumer
-    env_file: [ "./.env", "./envs/python.env", "./envs/consumer.env", "./envs/twitter.env" ]
-    build:
-      context: ./${PATH_DOCKERFILE}
-      dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
-    <<: *default-entrypoint-python
-    healthcheck:
-      test: nc -z kafka 9092 || exit 1
-      interval: 10s
-      timeout: 2s
-      retries: 10
-    restart: on-failure
-    logging: *default-logging
-    depends_on: [ "kafka" ]
-    <<: *default-volumes
-    networks: [ "realtime-processing" ]
-
 # ==============================================================================
 # NETWORKS
 # ==============================================================================
