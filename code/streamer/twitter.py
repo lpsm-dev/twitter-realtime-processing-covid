@@ -3,7 +3,8 @@
 import tweepy
 from tweepy import Stream
 from http.client import IncompleteRead
-from typing import Callable, NoReturn, Text
+from typing import Callable, NoReturn, Text, List
+
 from streamer.listener import TwitterListener
 from variables.general import (
   twitter_consumer_key,
