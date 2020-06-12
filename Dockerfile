@@ -17,7 +17,7 @@ LABEL maintainer="Lucca Pessoa da Silva Matos - luccapsm@gmail.com" \
         org.label-schema.url="https://github.com/lpmatos" \
         org.label-schema.alpine="https://alpinelinux.org/" \
         org.label-schema.python="https://www.python.org/" \
-        org.label-schema.name="Twitter Realtime Processing"
+        org.label-schema.name="Twitter realtime processing tweets Covid-19 using Kafka"
 
 ENV HOME=/usr/src/code
 

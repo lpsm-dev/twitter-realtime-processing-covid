@@ -23,7 +23,7 @@ logger_name = config.get_env("LOGGER_NAME") if config.get_env("LOGGER_NAME") els
 
 logger = Log(log_path, log_file, log_level, logger_name).logger
 
-realtime, vesion = args["realtime"].capitalize(), args["version"]
+realtime, version = args["realtime"].capitalize(), args["version"]
 
-broker = [config.get_env("KAFKA_BROKER_URL")] if config.get_env("KAFKA_BROKER_URL") else ["kafka:9092"]
+broker = config.get_env("KAFKA_BROKER_URL") if config.get_env("KAFKA_BROKER_URL") else "kafka:9092"
 tweets_topic = config.get_env("KAFKA_TOPIC") if config.get_env("KAFKA_TOPIC") else "dados-tweets"

@@ -15,18 +15,21 @@ from variables.general import (
 
 class TwitterStreamer():
 
-  def stream_tweets(self, track: List) -> NoReturn:
+  def stream_tweets(self, keywords: List) -> NoReturn:
     auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
     auth.set_access_token(twitter_access_token, twitter_access_token_secret)
     api = tweepy.API(auth)
-    listener = TwitterListener(api)
+    listener = TwitterListener()
     while True:
       try:
         stream = Stream(
-          auth,
+          api.auth,
           listener
         )
-        stream.filter(track=track)
+        if keywords:
+          stream.filter(track=keywords)
+        else:
+          stream.filter()
       except IncompleteRead:
         continue
       except KeyboardInterrupt:

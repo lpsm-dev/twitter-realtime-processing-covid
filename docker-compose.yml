@@ -49,7 +49,7 @@ x-volumes: &default-volumes
 x-volumes-kafka: &default-volumes-kafka
   volumes:
     - ./scripts/wait:/usr/local/bin/wait
-    - ./zk-single-kafka-single/kafka/data:/var/lib/kafka/data
+    - ./logs/zk-single-kafka-single/kafka/data:/var/lib/kafka/data
 
 # ==============================================================================
 # SERVICES
@@ -89,7 +89,6 @@ services:
     restart: on-failure
     logging: *default-logging
     volumes: [ "elasticsearch_1:/usr/share/elasticsearch/data" ]
-    networks: [ "realtime-processing" ]
 
   elasticsearch01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
@@ -109,7 +108,6 @@ services:
     restart: on-failure
     logging: *default-logging
     volumes: [ "elasticsearch_2:/usr/share/elasticsearch/data" ]
-    networks: [ "realtime-processing" ]
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.2.0
@@ -130,7 +128,6 @@ services:
     logging: *default-logging
     depends_on: [ "elasticsearch" ]
     <<: *default-volumes
-    networks: [ "realtime-processing" ]
 
 # ==============================================================================
 # KAFKA
@@ -147,8 +144,7 @@ services:
         mode: host
     restart: on-failure
     logging: *default-logging
-    volumes: [ "/zk-single-kafka-single/zookeeper/data:/data", "./zk-single-kafka-single/zookeeper/datalog:/datalog" ]
-    networks: [ "realtime-processing" ]
+    volumes: [ "./logs/zk-single-kafka-single/zookeeper/data:/data", "./logs/zk-single-kafka-single/zookeeper/datalog:/datalog" ]
 
   kafka:
     image: confluentinc/cp-kafka:5.3.0
@@ -164,7 +160,6 @@ services:
     logging: *default-logging
     depends_on: [ "zookeeper" ]
     <<: *default-volumes-kafka
-    networks: [ "realtime-processing" ]
 
   kafka-connect:
     image: confluentinc/cp-kafka-connect:5.3.0
@@ -178,8 +173,7 @@ services:
     restart: on-failure
     logging: *default-logging
     depends_on: [ "zookeeper", "kafka" ]
-    volumes: [ "./connectors:/etc/kafka-connect/jars/" ]
-    networks: [ "realtime-processing" ]
+    volumes: [ "./logs/connectors:/etc/kafka-connect/jars/" ]
 
   kafka-connect-ui:
     image: landoop/kafka-connect-ui:0.9.4
@@ -195,7 +189,6 @@ services:
     logging: *default-logging
     depends_on: [ "kafka-connect" ]
     <<: *default-volumes
-    networks: [ "realtime-processing" ]
 
   kafka-manager:
     image: sheepkiller/kafka-manager:latest
@@ -208,39 +201,15 @@ services:
         mode: host
     depends_on: [ "zookeeper", "kafka" ]
     links: [ "zookeeper", "kafka" ]
-    networks: [ "realtime-processing" ]
-
-# ==============================================================================
-# PYTHON
-# ==============================================================================
-
-  producer:
-    container_name: producer
-    env_file: [ "./.env", "./envs/python.env", "./envs/producer.env", "./envs/twitter.env" ]
-    build:
-      context: ./${PATH_DOCKERFILE}
-      dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
-    <<: *default-entrypoint-python
-    healthcheck:
-      test: nc -z kafka 9092 || exit 1
-      interval: 10s
-      timeout: 2s
-      retries: 10
-    restart: on-failure
-    logging: *default-logging
-    depends_on: [ "kafka" ]
-    <<: *default-volumes
-    networks: [ "realtime-processing" ]
 
 # ==============================================================================
 # NETWORKS
 # ==============================================================================
 
 networks:
-  realtime-processing:
-    driver: bridge
+  default:
+    external:
+      name: realtime-processing
 
 # ==============================================================================
 # VOLUMES

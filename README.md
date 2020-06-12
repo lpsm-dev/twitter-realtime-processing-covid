@@ -2,6 +2,92 @@
   <img alt="python-kafka" src="https://miro.medium.com/max/1400/1*SevEMhvGvosd6am1u0Qqqg.png" width="250px" float="center"/>
 </p>
 
+<h1 align="center">Welcome to Twitter Realtime Processing Repository</h1>
+
+<p align="center">
+  <strong>Python Realtime Processing Tweets COVID-19 using Kafka + Elasticsearch + Kibana + Docker + Docker-Compose</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid">
+    <img alt="Open Source" src="https://badges.frapsoft.com/os/v1/open-source.svg?v=102">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid/graphs/contributors">
+    <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid">
+    <img alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid">
+    <img alt="GitHub Top Language" src="https://img.shields.io/github/languages/top/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid/stargazers">
+    <img alt="GitHub Stars" src="https://img.shields.io/github/stars/lpmatos/twitter-realtime-processing-covid?style=social">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid/commits/master">
+    <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid">
+    <img alt="Repository Size" src="https://img.shields.io/github/repo-size/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid/issues">
+    <img alt="Repository Issues" src="https://img.shields.io/github/issues/lpmatos/twitter-realtime-processing-covid">
+  </a>
+
+  <a href="https://github.com/lpmatos/twitter-realtime-processing-covid/blob/master/LICENSE">
+    <img alt="MIT License" src="https://img.shields.io/github/license/lpmatos/twitter-realtime-processing-covid">
+  </a>
+</p>
+
+### Menu
+
+<p align="left">
+  <a href="#pre-requisites">Pre-Requisites</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#description">Description</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#how-to-contribute">How to contribute</a>
+</p>
+
+### By me a coffe
+
+Pull requests are welcome. If you'd like to support the work and buy me a ☕, I greatly appreciate it!
+
+<a href="https://www.buymeacoffee.com/EatdMck" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 100px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+### Getting Started
+
+If you want use this repository you need to make a **git clone**:
+
+```bash
+git clone --depth 1 https://github.com/lpmatos/twitter-realtime-processing-covid.git -b master
+```
+
+This will give access on your **local machine**.
+
+### Environment file
+
+We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
+
+Copy the file .env-example to a .env file and replace the values inside of it.
+
+### Install
+
+This fraud detection system is fully containerised. You will need [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/) to run it.
+
+You simply need to create a Docker network called `kafka-network` to enable communication between the Kafka cluster and the apps:
+
+```bash
+$ docker network create kafka-network
+```
+
+All set!
+
 ### 🐋 Development with Docker
 
 Steps to build the Docker Image.
@@ -51,12 +137,6 @@ Down all services and delete all images.
 ```bash
 docker-compose down --rmi all
 ```
-
-### Environment file
-
-We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
-
-Copy the file .env-example to a .env file and replace the values inside of it.
 
 ### How to contribute
 

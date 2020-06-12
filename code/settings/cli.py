@@ -15,7 +15,7 @@ class CLIArguments:
   def _create_parser_object() -> ArgumentParser:
     try:
       return ArgumentParser(
-        description="Twitter Realtime Processing Tweets COVID-19 using Kafka",
+        description="Twitter realtime processing tweets covid-19 using kafka",
         prog="twitter-realtime-processing",
         epilog=CLI,
         formatter_class=RawTextHelpFormatter)

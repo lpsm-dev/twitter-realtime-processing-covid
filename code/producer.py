@@ -3,6 +3,7 @@
 import tweepy
 from time import sleep
 from tweepy import Stream
+from tweepy.auth import OAuthHandler
 from json import dumps, loads
 from datetime import datetime
 from kafka import KafkaProducer
@@ -15,12 +16,16 @@ from urllib3.exceptions import ProtocolError
 # GLOBAL
 # ==============================================================================
 
-consumer_key = 'mLhqSwCo0QzPetvyqXnuaqv9M'
-consumer_secret = 'HcOsJycgN9u8IKqct6k7OvTMR6Fjb0bfx1Y6AMOtOgxmtsdqOK'
-access_token = '1254380788281495552-QtJYhKhY8N9TKrsP8Z5ZNwYgZ31PY5'
-access_token_secret = '1vODLDbWXaY4UoMEqSWTvlQDK0nwXvHpZn1SkifhhpZ4d'
-broker, topico = "localhost:9092", "dados-tweets"
-producer = KafkaProducer(bootstrap_servers=[broker])
+TWITTER_CONSUMER_KEY="mLhqSwCo0QzPetvyqXnuaqv9M"
+TWITTER_CONSUMER_SECRET="HcOsJycgN9u8IKqct6k7OvTMR6Fjb0bfx1Y6AMOtOgxmtsdqOK"
+TWITTER_ACCESS_TOKEN="1254380788281495552-QtJYhKhY8N9TKrsP8Z5ZNwYgZ31PY5"
+TWITTER_ACCESS_TOKEN_SECRET="1vODLDbWXaY4UoMEqSWTvlQDK0nwXvHpZn1SkifhhpZ4d"
+
+broker, topico = "kafka:9092", "dados-tweets"
+
+producer = KafkaProducer(bootstrap_servers=[broker], max_block_ms=10000000)
+auth = OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
 
 # ==============================================================================
 # CLASS
@@ -68,23 +73,26 @@ class TwitterListener(StreamListener):
     print(f"Twitter timeout...")
     return True
 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
-listener = TwitterListener()
+# ==============================================================================
+# MAIN
+# ==============================================================================
 
-if producer.bootstrap_connected():
-  while True:
-    try:
-      stream = Stream(
-        api.auth,
-        listener
-      )
-      stream.filter(track=["covid", "corona", "pandemic", "covid-19", "virus", "corona virus"])
-    except IncompleteRead:
-      continue
-    except KeyboardInterrupt:
-      stream.disconnect()
-      break
-else:
-  print("Failed to connect to service")
+if __name__ == "__main__":
+
+  if producer.bootstrap_connected():
+    listener = TwitterListener()
+    while True:
+      try:
+        stream = Stream(
+          auth,
+          listener
+        )
+        stream.filter(track=["covid", "corona", "pandemic", "covid-19", "virus", "corona virus"])
+      except IncompleteRead:
+        print("I'm Here!")
+        continue
+      except KeyboardInterrupt:
+        stream.disconnect()
+        break
+  else:
+    print("Failed to connect to service")
