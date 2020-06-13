@@ -1,4 +1,4 @@
-curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+curl -X POST kafka-connect:8083/connectors -H "Content-Type: application/json" -d '{
 	"name": "elasticsearch-sink-kafka",
 	"config": {
 		"connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",

@@ -23,7 +23,8 @@ RUN set -ex && apk update
 
 RUN apk add --update --no-cache \
       bash=5.0.11-r1 \
-      netcat-openbsd=1.130-r1
+      netcat-openbsd=1.130-r1 \
+      curl=7.67.0-r0
 
 COPY --from=install-env [ "/root/.local", "/usr/local" ]
 

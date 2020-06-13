@@ -255,3 +255,13 @@ Give a ⭐️ if this project helped you!
 ---
 
 <p align="center">Feito com ❤️ by <strong>Lucca Pessoa :wave:</p>
+
+consumer_key = "E0pFYVai9VaOhqLiRBEC6gpGF"
+consumer_secret = "XAMh4l9XL5nwFK3MN5tAjtXA2YgDN1tw5f7L2n6dz5ib8VYlbm"
+access_token = "3261604734-86c7DOJP98GwNeFWzvgPQKFUTyHn1ZFwlloJP3v"
+access_token_secret = "eXEmlEAdxaFjueVP03jsAWeOeNMkI7ToiDQkyvLDa6eX7"
+
+consumer_key = "XklQ1cCtsnz69OxI5M0HTBnxD"
+consumer_secret = "hr8GbfI7qlYjvrFSpF0dhRDbl7ScISumNunImzbdQ1n4S36sCi"
+access_token = "1261594236207525888-rSiG1qqxk2rRH2JAUx5xMbrvEj1hqG"
+access_token_secret = "qrU5TIUWZK3JL9Zt82ZuFGHrfz6H9daLAoqKP21Dh5Eja"

@@ -157,6 +157,13 @@ services:
     image: confluentinc/cp-kafka-connect:5.3.0
     container_name: kafka-connect
     env_file: [ "./.env", "./envs/kafka-connect.env" ]
+    networks:
+      default:
+        aliases:
+          - default
+      realtime-processing:
+        aliases:
+          - realtime-processing
     ports:
       - target: 8083
         published: 8083
@@ -199,9 +206,8 @@ services:
 # ==============================================================================
 
 networks:
-  default:
-    external:
-      name: realtime-processing
+  realtime-processing:
+    driver: bridge
 
 # ==============================================================================
 # VOLUMES
