@@ -9,6 +9,10 @@ from settings.handlers import (BaseFileHandler,
   ContextHandler
 )
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 class SingletonLogger(type):
 
   _instances = {}

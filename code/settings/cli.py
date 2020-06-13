@@ -4,6 +4,10 @@ from constants.general import CLI
 from typing import NoReturn, Text
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentError
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 class CLIArguments:
 
   def __init__(self) -> NoReturn:

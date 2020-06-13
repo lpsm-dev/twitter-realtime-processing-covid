@@ -1,18 +1,24 @@
-# importando as bibliotecas
-import json
-from kafka import KafkaConsumer
+# -*- coding: utf-8 -*-
 
-brokers = ["kafka:9092"]
-topico = "dados-tweets"
-consumer = KafkaConsumer(topico, group_id = 'group1', bootstrap_servers = brokers)
+from json import loads
+from core.consumer import TwitterConsumer
+from variables.general import broker, logger, tweets_topic
 
-if consumer.bootstrap_connected():
-  print("Connection okay.")
-  frases = ""
-  for messagem in consumer:
-    texto = json.loads(messagem.value.decode('utf-8'))
-    print(texto)
-    frases = frases + texto.get("text", "No Found")
-    print(frases)
-else:
-  print("Bad")
+
+# ==============================================================================
+# GLOBAL
+# ==============================================================================
+
+consumer = TwitterConsumer(broker, tweets_topic).consumer
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+
+if __name__ == "__main__":
+  if consumer.bootstrap_connected():
+    logger.info("Connection okay.")
+    for messagem in consumer:
+      logger.info(messagem.value)
+  else:
+    logger.error("Failed to connect to service")

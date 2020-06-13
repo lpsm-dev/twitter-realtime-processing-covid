@@ -9,6 +9,10 @@ from urllib3.exceptions import ProtocolError
 
 from variables.general import logger, tweets_topic
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 class TwitterListener(StreamListener):
 
   def __init__(self, producer: Callable) -> NoReturn:

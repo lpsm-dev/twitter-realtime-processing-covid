@@ -6,6 +6,10 @@ from pythonjsonlogger import jsonlogger
 from abc import ABCMeta, abstractmethod
 from typing import NoReturn, Text, List
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 class StrategyHandler(metaclass=ABCMeta):
 
   @abstractmethod

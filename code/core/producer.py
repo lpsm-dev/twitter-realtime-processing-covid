@@ -8,7 +8,11 @@ from typing import NoReturn, Text, List, Dict
 
 from variables.general import logger
 
-class TwitterProducer():
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
+class TwitterProducer:
 
   MAX_RETRIES = 100
 
@@ -17,16 +21,15 @@ class TwitterProducer():
     self.producer = self.get_producer()
 
   def get_producer(self) -> KafkaProducer:
-    retries = 1
+    retries = 0
     while retries <= self.MAX_RETRIES:
       try:
-        logger.info(f"Getting Kafka Producer - Retries {retries}")
-        producer = KafkaProducer(
+        logger.info(f"Getting kafka producer - Retries {retries}")
+        return KafkaProducer(
           bootstrap_servers=self.broker,
           value_serializer = lambda value: dumps(value).encode("utf8"),
           max_block_ms=10000000
         )
-        return producer
       except KafkaError:
         logger.warning(f"No broker available. Retrying {retries}")
         retries += 1

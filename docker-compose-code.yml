@@ -53,7 +53,11 @@ services:
     restart: on-failure
     logging: *default-logging
     <<: *default-volumes
-    external_links: ["kafka-connect"]
+    external_links: ["kafka-connect:kafka-connect"]
+    networks:
+      - default
+      - network-default
+      - network-realtime-processing
 
   consumer:
     container_name: consumer

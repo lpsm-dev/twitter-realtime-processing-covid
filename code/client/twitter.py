@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from tweepy import OAuthHandler, API
 from dataclasses import dataclass, field
 from typing import NoReturn, Text, Callable
-from tweepy import OAuthHandler, API
 from tweepy.error import TweepError, RateLimitError
+
 from variables.general import logger
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 @dataclass(init=True, repr=False)
-class TwitterBase(object):
+class TwitterBase:
   consumer_key: Text = field(init=True, repr=False)
   consumer_secret: Text = field(init=True, repr=False)
   access_token: Text = field(init=True, repr=False)
@@ -63,7 +68,7 @@ class TwitterClient(TwitterAuthenticator):
       wait_on_rate_limit_notify=True
     )
     try:
-      logger.info("Checking Twitter credentials")
+      logger.info("Checking twitter credentials")
       twitter_client.verify_credentials()
     except RateLimitError as error:
       logger.error(f"Tweepy RateLimitError - {error}")
@@ -72,5 +77,5 @@ class TwitterClient(TwitterAuthenticator):
     except Exception as error:
       logger.error(f"Error general exception - {error}")
     else:
-      logger.info("Successful Twitter Authentication!")
+      logger.info("Successful twitter authentication!")
       return twitter_client

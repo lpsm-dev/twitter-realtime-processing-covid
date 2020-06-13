@@ -115,8 +115,8 @@ All set!
 
 ### Sending Data to Elasticsearch
 
-```
-{
+```bash
+curl -X POST kafka-connect:8083/connectors -H "Content-Type: application/json" -d '{
 	"name": "elasticsearch-sink-kafka",
 	"config": {
 		"connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
@@ -131,7 +131,7 @@ All set!
 		"key.converter": "org.apache.kafka.connect.storage.StringConverter",
 		"schema.ignore": "true"
 	}
-}
+}'
 ```
 
 ### Environment variables
@@ -146,6 +146,8 @@ All set!
 **LOG_FILE**  |  Just the Log File
 **LOG_LEVEL**  |  Just the Log Level
 **LOGGER_NAME**  |  Just the Logger name
+**KAFKA_BROKER_URL**  |  Kafka Broker URL
+**KAFKA_TOPIC**  |  Kafka Topic Name
 
 ### Environment file
 
@@ -203,6 +205,10 @@ Down all services and delete all images.
 docker-compose down --rmi all
 ```
 
+### Docker Resources
+
+![Alt text](docs/resources.png?raw=true "Docker Resources")
+
 ### How to contribute
 
 >
@@ -255,13 +261,3 @@ Give a ⭐️ if this project helped you!
 ---
 
 <p align="center">Feito com ❤️ by <strong>Lucca Pessoa :wave:</p>
-
-consumer_key = "E0pFYVai9VaOhqLiRBEC6gpGF"
-consumer_secret = "XAMh4l9XL5nwFK3MN5tAjtXA2YgDN1tw5f7L2n6dz5ib8VYlbm"
-access_token = "3261604734-86c7DOJP98GwNeFWzvgPQKFUTyHn1ZFwlloJP3v"
-access_token_secret = "eXEmlEAdxaFjueVP03jsAWeOeNMkI7ToiDQkyvLDa6eX7"
-
-consumer_key = "XklQ1cCtsnz69OxI5M0HTBnxD"
-consumer_secret = "hr8GbfI7qlYjvrFSpF0dhRDbl7ScISumNunImzbdQ1n4S36sCi"
-access_token = "1261594236207525888-rSiG1qqxk2rRH2JAUx5xMbrvEj1hqG"
-access_token_secret = "qrU5TIUWZK3JL9Zt82ZuFGHrfz6H9daLAoqKP21Dh5Eja"

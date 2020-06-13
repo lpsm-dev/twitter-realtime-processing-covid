@@ -2,6 +2,19 @@
 
 All important changes to this project will be added to this file! This changelog will be based on [Keep a change log](http://keepachangelog.com/)
 
+## 1.1.0 - [ 13-06-2020 ]
+
+### Added
+
+* Create Docker Compose networks.
+
+### Fixed
+
+* Fix Kafka Producer and Consumer in Python Code.
+* Send data to Elasticsearch.
+* Twitter Client code.
+* Twitter Listener code.
+
 ## 1.0.0 - [ 11-06-2020 ]
 
 ### Added

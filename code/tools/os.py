@@ -4,6 +4,10 @@ import sys
 from os import path, makedirs
 from typing import NoReturn, Text
 
+# ==============================================================================
+# CLASS
+# ==============================================================================
+
 class OS:
 
   @classmethod
@@ -42,4 +46,3 @@ class OS:
     else:
       self.create_directory(directory)
       self.create_file(file)
-      
