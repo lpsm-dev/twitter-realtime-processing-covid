@@ -25,10 +25,9 @@ dv:
 	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker rm $(DOCKER_CONTAINER_LIST))
 
 .PHONY: create-network
-clean:
+create-network:
   docker network create network-default
   docker network create network-realtime-processing
-
 
 .PHONY: clean
 clean: ds dr dvp dnp
