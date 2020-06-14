@@ -1,7 +1,6 @@
 ARG PYTHON_VERSION=3.8-alpine3.11
 
 FROM python:${PYTHON_VERSION} as base
-
 FROM base as install-env
 
 COPY [ "requirements.txt", "."]
@@ -17,11 +16,10 @@ LABEL maintainer="Lucca Pessoa da Silva Matos - luccapsm@gmail.com" \
         org.label-schema.url="https://github.com/lpmatos" \
         org.label-schema.alpine="https://alpinelinux.org/" \
         org.label-schema.python="https://www.python.org/" \
-        org.label-schema.name="Twitter realtime processing tweets Covid-19 using Kafka"
+        org.label-schema.name="Twitter realtime processing tweets Covid-19 with Apache Kafka"
 
-RUN set -ex && apk update
-
-RUN apk add --update --no-cache \
+RUN set -ex && apk update && \
+    apk add --update --no-cache \
       bash=5.0.11-r1 \
       netcat-openbsd=1.130-r1 \
       curl=7.67.0-r0

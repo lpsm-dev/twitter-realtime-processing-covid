@@ -7,6 +7,7 @@ from typing import NoReturn, Text, Callable
 from tweepy.streaming import StreamListener
 from urllib3.exceptions import ProtocolError
 
+from processing.tweet import TweetCleaner
 from variables.general import logger, tweets_topic
 
 # ==============================================================================
@@ -19,21 +20,11 @@ class TwitterListener(StreamListener):
     self.producer = producer
 
   def on_connect(self) -> NoReturn:
-    logger.info("You are now connected to the Twitter streaming API.")
+    logger.info("You are now connected to twitter streaming API.")
 
   def on_data(self, data: Text) -> NoReturn:
     try:
-      parsed = loads(data)
-      if "extended_tweet" in parsed:
-        text = parsed["extended_tweet"]["full_text"]
-      text = parsed["text"]
-      tweet = {
-        "user_name": parsed["user"]["screen_name"],
-        "followers": parsed["user"]["followers_count"],
-        "friends": parsed["user"]["friends_count"],
-        "text": text,
-        "data_collection": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-      }
+      tweet = TweetCleaner(remove_retweets=False).filter_tweet(loads(data))
       logger.info("Send message to Kafka Producer...")
       self.producer.send_message(tweets_topic, tweet)
       logger.info("Sleeping 3 seconds...")

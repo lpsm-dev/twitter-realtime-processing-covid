@@ -1,59 +1,64 @@
-.PHONY: clean python-packages install run all
+ifeq ($(OS), Windows_NT)
+	DOCKER_CONTAINER_LIST = $(shell docker ps -aq)
+else
+	DOCKER_CONTAINER_LIST = $(shell docker ps -aq)
+endif
 
-# ==============================================================================
-# DECLARING VARIABLES
-# ==============================================================================
+.PHONY: dsp
+dsp:
+	@-docker system prune -af
 
-# CONTAINERS
-DOCKER_CONTAINER_LIST:=$(shell docker ps -aq)
+.PHONY: dvp
+dvp:
+	@-docker volume prune -f
 
-# ==============================================================================
-# DOCKER
-# ==============================================================================
+.PHONY: dnp
+dnp:
+	@-docker network prune -f
 
-system:
-	docker system prune -af
+.PHONY: ds
+ds:
+	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker stop $(DOCKER_CONTAINER_LIST))
 
-volume:
-	docker volume prune -f
+.PHONY: dv
+dv:
+	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker rm $(DOCKER_CONTAINER_LIST))
 
-network:
-	docker network prune -f
+.PHONY: create-network
+clean:
+  docker network create network-default
+  docker network create network-realtime-processing
 
-stop:
-	docker stop ${DOCKER_CONTAINER_LIST}
 
-remove:
-	docker rm ${DOCKER_CONTAINER_LIST}
+.PHONY: clean
+clean: ds dr dvp dnp
+
+.PHONY: remove
+remove: ds dr dvp dnp dsp
 
 # ==============================================================================
 # DOCKER-COMPOSE
 # ==============================================================================
 
-compose:
+.PHONY: dcbn
+dcbn:
+	docker-compose build --no-cache
+
+.PHONY: dcub
+dcub:
 	docker-compose up --build
 
-back:
+.PHONY: dcubd
+dcubd:
 	docker-compose up --build -d
 
-down:
+.PHONY: dcs
+dcs:
 	docker-compose down
 
-# ==============================================================================
-# PYTHON
-# ==============================================================================
+.PHONY: dcps
+dcps:
+	docker-compose ps
 
-clean:
-	find . -type f -name '*.pyc' -delete
-	find . -type f -name '*.log' -delete
-	find . -type d -name __pycache__ -delete
-
-python-packages:
-	pip3 install -r requirements.txt
-
-install: python-packages
-
-run:
-	python3 code/main.py
-
-all: clean install run
+.PHONY: run
+run: dcps dcs dcubd
