@@ -24,16 +24,11 @@ ds:
 dv:
 	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker rm $(DOCKER_CONTAINER_LIST))
 
-.PHONY: create-network
-create-network:
-  docker network create network-default
-  docker network create network-realtime-processing
-
 .PHONY: clean
-clean: ds dr dvp dnp
+clean: ds dv dvp dnp
 
 .PHONY: remove
-remove: ds dr dvp dnp dsp
+remove: ds dv dvp dnp dsp
 
 # ==============================================================================
 # DOCKER-COMPOSE
