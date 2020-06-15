@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tools.os import OS
+from tools.yml import YML
 from settings.log import Log
 from settings.config import Config
 from settings.cli import CLIArguments
@@ -9,7 +10,9 @@ from settings.cli import CLIArguments
 # GLOBAL
 # ==============================================================================
 
-config, args = Config(), CLIArguments().args
+MAX_RETRIES = 50
+
+config, args, yml = Config(), CLIArguments().args, YML()
 
 twitter_consumer_key = config.get_env("TWITTER_CONSUMER_KEY")
 twitter_consumer_secret = config.get_env("TWITTER_CONSUMER_SECRET")

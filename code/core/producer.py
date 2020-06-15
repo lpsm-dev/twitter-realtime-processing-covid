@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 from kafka.errors import KafkaError
 from typing import NoReturn, Text, List, Dict
 
-from variables.general import logger
+from variables.general import logger, MAX_RETRIES
 
 # ==============================================================================
 # CLASS
@@ -14,15 +14,13 @@ from variables.general import logger
 
 class TwitterProducer:
 
-  MAX_RETRIES = 100
-
   def __init__(self, broker: List) -> NoReturn:
     self.broker = broker
     self.producer = self.get_producer()
 
   def get_producer(self) -> KafkaProducer:
     retries = 0
-    while retries <= self.MAX_RETRIES:
+    while retries <= MAX_RETRIES:
       try:
         logger.info(f"Getting kafka producer - Retries {retries}")
         return KafkaProducer(

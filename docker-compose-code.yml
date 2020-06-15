@@ -14,7 +14,7 @@ x-entrypoint-python-producer: &default-entrypoint-python-producer
   entrypoint: >
     /bin/sh -c "
       set -e
-        /usr/local/bin/wait && python /usr/src/code/producer.py --realtime $${NAME}
+        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
       /bin/bash || exit 0
     "
 
@@ -22,7 +22,7 @@ x-entrypoint-python-consumer: &default-entrypoint-python-consumer
   entrypoint: >
     /bin/sh -c "
       set -e
-        /usr/local/bin/wait && python /usr/src/code/consumer.py --realtime $${NAME}
+        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
       /bin/bash || exit 0
     "
 
@@ -30,6 +30,7 @@ x-volumes: &default-volumes
   volumes:
     - ./scripts/wait:/usr/local/bin/wait
     - ./scripts/elastic:/usr/local/bin/elastic
+    - ./values.yml:/usr/src/code/values.yml
 
 # ==============================================================================
 # SERVICES

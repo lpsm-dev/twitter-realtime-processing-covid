@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from time import sleep
-from json import loads
 from datetime import datetime
 from typing import NoReturn, Text, Callable
 from tweepy.streaming import StreamListener
@@ -24,17 +23,17 @@ class TwitterListener(StreamListener):
 
   def on_data(self, data: Text) -> NoReturn:
     try:
-      tweet = TweetCleaner(remove_retweets=False).filter_tweet(loads(data))
-      logger.info("Send message to Kafka Producer...")
+      tweet = TweetCleaner().filter_tweet(data)
+      logger.info("Send message to kafka producer...")
       self.producer.send_message(tweets_topic, tweet)
       logger.info("Sleeping 3 seconds...")
       sleep(3)
     except BaseException as error:
-      logger.error(f"BaseException Twitter On Data - {error}")
+      logger.error(f"BaseException Twitter on data - {error}")
     except Exception as error:
-      logger.error(f"Exception Twitter On Data - {error}")
+      logger.error(f"Exception Twitter on data - {error}")
     except ProtocolError as error:
-      logger.error(f"ProtocolError Twitter On Data - {error}")
+      logger.error(f"ProtocolError Twitter on data - {error}")
     else:
       return True
 

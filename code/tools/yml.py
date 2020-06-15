@@ -2,15 +2,15 @@
 
 import yaml
 from tools.os import OS
-from typing import Text, NoReturn, Dict
+from typing import NoReturn, Dict
 
 # ==============================================================================
 # CLASS
 # ==============================================================================
 
-class YMLReader(OS):
+class YML(OS):
 
-  def __init__(self, file: Text, path="/usr/src/code") -> NoReturn:
+  def __init__(self, file="values.yml", path="/usr/src/code") -> NoReturn:
     self.check_if_path_and_file_exist(path, file, creation=False)
     if file.endswith(".yaml") or file.endswith(".yml"):
       self.file = self.join_directory_with_file(path, file)

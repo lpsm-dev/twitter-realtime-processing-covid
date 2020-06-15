@@ -6,15 +6,13 @@ from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 from typing import NoReturn, List, Text
 
-from variables.general import logger
+from variables.general import logger, MAX_RETRIES
 
 # ==============================================================================
 # CLASS
 # ==============================================================================
 
 class TwitterConsumer:
-
-  MAX_RETRIES = 100
 
   def __init__(self, broker: List, topic: Text) -> NoReturn:
     self.broker = broker
@@ -23,7 +21,7 @@ class TwitterConsumer:
 
   def get_consumer(self) -> KafkaConsumer:
     retries = 0
-    while retries <= self.MAX_RETRIES:
+    while retries <= MAX_RETRIES:
       try:
         logger.info(f"Getting kafka consumer - Retries {retries}")
         return KafkaConsumer(
