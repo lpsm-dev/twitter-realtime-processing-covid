@@ -3,6 +3,7 @@
 import logging
 import coloredlogs
 from typing import NoReturn, Text
+
 from tools.os import OS
 from settings.handlers import (BaseFileHandler,
   BaseStreamHandler,

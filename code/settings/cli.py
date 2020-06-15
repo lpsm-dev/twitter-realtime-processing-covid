@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from constants.general import CLI
 from typing import NoReturn, Text
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentError
+
+from constants.general import CLI
 
 # ==============================================================================
 # CLASS

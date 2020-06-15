@@ -16,9 +16,9 @@ class TwitterProducer:
 
   def __init__(self, broker: List) -> NoReturn:
     self.broker = broker
-    self.producer = self.get_producer()
+    self.producer = self.get()
 
-  def get_producer(self) -> KafkaProducer:
+  def get(self) -> KafkaProducer:
     retries = 0
     while retries <= MAX_RETRIES:
       try:

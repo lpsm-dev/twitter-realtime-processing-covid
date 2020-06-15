@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import yaml
-from tools.os import OS
 from typing import NoReturn, Dict
+
+from tools.os import OS
 
 # ==============================================================================
 # CLASS

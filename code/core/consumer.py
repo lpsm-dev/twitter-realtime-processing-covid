@@ -17,9 +17,9 @@ class TwitterConsumer:
   def __init__(self, broker: List, topic: Text) -> NoReturn:
     self.broker = broker
     self.topic = topic
-    self.consumer = self.get_consumer()
+    self.consumer = self.get()
 
-  def get_consumer(self) -> KafkaConsumer:
+  def get(self) -> KafkaConsumer:
     retries = 0
     while retries <= MAX_RETRIES:
       try:
