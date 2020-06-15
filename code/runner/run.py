@@ -17,29 +17,36 @@ from streamer.twitter import TwitterStreamer
 # FUNCTIONS
 # ==============================================================================
 
+def producer() -> NoReturn:
+  logger.info(f"This is {realtime}...")
+  track = [
+    "covid", "corona",
+    "pandemic", "covid-19",
+    "virus", "corona virus"
+  ]
+  languages = ["en", "pt"]
+  TwitterStreamer().stream_tweets(languages, track)
+
+def consumer() -> NoReturn:
+  logger.info(f"This is {realtime}...")
+  consumer = TwitterConsumer(broker, tweets_topic).consumer
+  if consumer.bootstrap_connected():
+    logger.info("Connection okay.")
+    for messagem in consumer:
+      logger.info(messagem.value)
+  else:
+    logger.error("Failed to connect to service")
+
 def run() -> NoReturn:
   cprint(figlet_format(realtime, font="starwars"), "white", attrs=["dark"])
   logger.info("Running twitter realtime processing!")
+
   if version:
     print(VERSION)
     sys.exit()
 
   if realtime.lower() == "consumer":
-    logger.info(f"This is {realtime}...")
-    consumer = TwitterConsumer(broker, tweets_topic).consumer
-    if consumer.bootstrap_connected():
-      logger.info("Connection okay.")
-      for messagem in consumer:
-        logger.info(messagem.value)
-    else:
-      logger.error("Failed to connect to service")
+    consumer()
 
   if realtime.lower() == "producer":
-    logger.info(f"This is {realtime}...")
-    track = [
-      "covid", "corona",
-      "pandemic", "covid-19",
-      "virus", "corona virus"
-    ]
-    languages = ["en", "pt"]
-    TwitterStreamer().stream_tweets(languages, track)
+    producer()
