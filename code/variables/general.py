@@ -12,12 +12,17 @@ from settings.cli import CLIArguments
 
 MAX_RETRIES = 50
 
-config, args, yml = Config(), CLIArguments().args, YML()
+config, args, yml = Config(), CLIArguments().args, YML().get_content()
 
 twitter_consumer_key = config.get_env("TWITTER_CONSUMER_KEY")
 twitter_consumer_secret = config.get_env("TWITTER_CONSUMER_SECRET")
 twitter_access_token = config.get_env("TWITTER_ACCESS_TOKEN")
 twitter_access_token_secret = config.get_env("TWITTER_ACCESS_TOKEN_SECRET")
+
+twitter_consumer_key = twitter_consumer_key if twitter_consumer_key else yml["twitter"]["consumer"]["key"]
+twitter_consumer_secret = twitter_consumer_secret if twitter_consumer_secret else yml["twitter"]["consumer"]["secret"]
+twitter_access_token = twitter_access_token if twitter_access_token else yml["twitter"]["access"]["token"]
+twitter_access_token_secret = twitter_access_token_secret if twitter_access_token_secret else yml["twitter"]["access"]["secret"]
 
 log_path = config.get_env("LOG_PATH") if config.get_env("LOG_PATH") else "/var/log/code"
 log_file = config.get_env("LOG_FILE") if config.get_env("LOG_FILE") else "file.log"

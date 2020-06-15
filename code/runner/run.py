@@ -8,7 +8,7 @@ from pyfiglet import figlet_format
 from typing import NoReturn
 
 from constants.general import VERSION
-from variables.general import realtime, version, broker, logger, tweets_topic
+from variables.general import realtime, version, broker, logger, tweets_topic, yml
 
 from core.consumer import TwitterConsumer
 from streamer.twitter import TwitterStreamer
@@ -20,7 +20,6 @@ from streamer.twitter import TwitterStreamer
 def run() -> NoReturn:
   cprint(figlet_format(realtime, font="starwars"), "white", attrs=["dark"])
   logger.info("Running twitter realtime processing!")
-
   if version:
     print(VERSION)
     sys.exit()
