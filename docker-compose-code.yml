@@ -1,0 +1,89 @@
+version: "3.8"
+
+# ==============================================================================
+# ANCHORS
+# ==============================================================================
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "500k"
+    max-file: "20"
+
+x-entrypoint-python-producer: &default-entrypoint-python-producer
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
+      /bin/bash || exit 0
+    "
+
+x-entrypoint-python-consumer: &default-entrypoint-python-consumer
+  entrypoint: >
+    /bin/sh -c "
+      set -e
+        /usr/local/bin/wait && python /usr/src/code/main.py --realtime $${NAME}
+      /bin/bash || exit 0
+    "
+
+x-volumes: &default-volumes
+  volumes:
+    - ./scripts/wait:/usr/local/bin/wait
+    - ./scripts/elastic:/usr/local/bin/elastic
+    - ./values.yml:/usr/src/code/values.yml
+
+# ==============================================================================
+# SERVICES
+# ==============================================================================
+
+services:
+
+# ==============================================================================
+# PYTHON
+# ==============================================================================
+
+  producer:
+    container_name: producer
+    env_file: [ "./.env", "./envs/python.env", "./envs/producer.env", "./envs/twitter.env" ]
+    build:
+      context: ./${PATH_DOCKERFILE}
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    <<: *default-entrypoint-python-producer
+    restart: on-failure
+    logging: *default-logging
+    <<: *default-volumes
+    external_links: ["kafka-connect:kafka-connect"]
+    networks:
+      - default
+      - network-default
+      - network-realtime-processing
+
+  consumer:
+    container_name: consumer
+    env_file: [ "./.env", "./envs/python.env", "./envs/consumer.env", "./envs/twitter.env" ]
+    build:
+      context: ./${PATH_DOCKERFILE}
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    <<: *default-entrypoint-python-consumer
+    restart: on-failure
+    logging: *default-logging
+    <<: *default-volumes
+    external_links: ["kafka-connect:kafka-connect"]
+    networks:
+      - default
+      - network-default
+      - network-realtime-processing
+
+# ==============================================================================
+# NETWORKS
+# ==============================================================================
+
+networks:
+  network-default:
+    external: true
+  network-realtime-processing:
+    external: true
