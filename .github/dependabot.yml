@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "daily"
+    time: "08:00"
+  labels:
+  - "Type: Dependencies"
+  - "Status: Review Needed"
+  - "Priority: Low"
+  commit-message:
+    prefix: "chore"
+- package-ecosystem: "pip"
+  directory: "/"
+  schedule:
+    interval: "daily"
+    time: "08:00"
+  labels:
+  - "Type: Dependencies"
+  - "Status: Review Needed"
+  - "Priority: Low"
+  commit-message:
+    prefix: "chore"
+- package-ecosystem: "npm"
+  directory: "/"
+  schedule:
+    interval: "daily"
+    time: "08:00"
+  labels:
+  - "npm dependencies"
+  commit-message:
+    prefix: "chore"
