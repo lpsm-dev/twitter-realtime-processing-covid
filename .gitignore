@@ -1,2 +1,55 @@
-/logs/*
+# ================================================
+# GENERAL
+# ================================================
+
+# Application results
+logs/
 values.yml
+
+# Ignore IDEs
+.idea
+
+# Ignore OS files
+.DS_Store
+
+# Packages
+*.tgz
+
+# Secrets path
+.secrets/
+
+# Sonar scanner path
+.scannerwork/
+
+# ================================================
+# VSCODE
+# ================================================
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# ================================================
+# NODE
+# ================================================
+
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# ================================================
+# YARN
+# ================================================
+
+yarn-debug.log*
+yarn-error.log*
+
+/.pnp
+.pnp.js
