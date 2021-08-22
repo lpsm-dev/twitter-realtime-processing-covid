@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 curl -X POST kafka-connect:8083/connectors -H "Content-Type: application/json" -d '{
 	"name": "elasticsearch-sink-kafka",
 	"config": {
