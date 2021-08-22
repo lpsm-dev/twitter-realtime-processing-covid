@@ -16,7 +16,7 @@ A imagem a baixo mostra uma arquitetura de Big Data chamada **Kappa**, onde exem
 
 O Apache Kafka é uma plataforma distribuída de mensagens e streaming.
 
-É uma poderosa ferramente multi-propósito que tem ganhado bastante destaque, pois apresente: desempenho, estabilidade e escalabilidade. 
+É uma poderosa ferramente multi-propósito que tem ganhado bastante destaque, pois apresente: desempenho, estabilidade e escalabilidade.
 
 Muitos especialistas recomendam essa ferramente para processamento de dados por streaming.
 
@@ -62,15 +62,15 @@ Se você quer mover e transformar um grande volume de dados em tempo real entre 
 
 O Kakfa tem cinco API's principais:
 
-1. Producer API: 
+1. Producer API:
   * Permite que um aplicativo publique o fluxo de registros em um ou mais tópicos do Kafka.
-2. Consumer API: 
+2. Consumer API:
   * Permite que um aplicativo assine um ou mais tópicos e processe o fluxo de registros produzidos.
-3. Streams API: 
+3. Streams API:
   * Permite que um aplicativo atue como um processador de fluxo, consumindo um fluxo de entrada de um ou mais tópicos e produzindo um fluxo de saída para um ou mais tópicos de saída, transformando efetivamente os fluxos de entrada em fluxos de saída.
-4. Connector API: 
+4. Connector API:
   * Permite criar e executar produtores e consumidores reutilizáveis que conectam tópicos do Kakfa a aplicativos ou sistemas de dados existentes. Por exemplo, um conector para um banco de dados relacional pode capturar todas as alterações em um tabela.
-5. Admin API: 
+5. Admin API:
   * Permite gerenciar e inspecionar tópicos, intermediários e outros objetos Kafka.
 
 No Kafka a comunicação entre clientes e os servidores é feita com um protocolo TCP independente da linguagem, simples e de alto desempenho.
@@ -97,7 +97,7 @@ Um tópico é como categorizamos grupos de mensagens dentro do Kafka.
 
 Todas as mensgens enviadas para o Kafka permanecem em um tópico. Mensagens são imutáveis e ordenadas.
 
-Para manter a ordenação em um ecossistema de Kafka, os tópicos possuem partições e fatores de replicação. 
+Para manter a ordenação em um ecossistema de Kafka, os tópicos possuem partições e fatores de replicação.
 
 Um tópico pode possuir N partições, mas ao receber uma nova mensagem o Kafka automaticamente direciona aquela mensagem para uma partição específica dependendo de sua chave (key). Assim, mensagens de uma mesma chave estarão apenas em uma única partição, garantindo a leitura ordenada de todas as mensagens de um tópico.
 
@@ -117,11 +117,11 @@ Trata-se de quem está consumindo as mensagens que são publicadas em um determi
 
 ### Apache Zookeeper
 
-O Zookeeper é um serviço centralizado para, entre outras coisas, coordenação de sistemas distribuídos. 
+O Zookeeper é um serviço centralizado para, entre outras coisas, coordenação de sistemas distribuídos.
 
 O Kafka é um sistema distribuído, e consequentemente delega diversas funções de gerenciamento e coordenação para o Zookeeper.
 
-Eles possuem uma dependência muito forte, mas isso não é tão ruim. 
+Eles possuem uma dependência muito forte, mas isso não é tão ruim.
 
 O Kafka pode fazer o que ele intencionalmente tem que saber fazer de melhor, delegando essas demais funcionalidades para quem sabe fazer isso bem, sem precisar reinventar a roda.
 

@@ -5,7 +5,7 @@ import emoji
 from json import loads
 from datetime import datetime
 from dataclasses import dataclass
-from typing import NoReturn, Text, Dict
+from typing import Text, Dict
 
 from variables.general import logger
 
