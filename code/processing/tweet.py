@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import re
-import emoji
-from json import loads
-from datetime import datetime
 from dataclasses import dataclass
-from typing import Text, Dict
+from datetime import datetime
+from json import loads
+from typing import Dict, Text
 
+import emoji
 from variables.general import logger
 
 # ==============================================================================

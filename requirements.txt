@@ -1,9 +1,9 @@
-coloredlogs==14.0
-python-json-logger==0.1.11
-pyfiglet==0.7
-termcolor==1.1.0
+coloredlogs==15.0.1
 colorama==0.4.3
-kafka-python==2.0.1
-tweepy==3.8.0
 emoji==0.5.4
+kafka-python==2.0.1
+pyfiglet==0.7
+python-json-logger==2.0.2
 PyYAML==5.4
+termcolor==1.1.0
+tweepy==3.10.0
