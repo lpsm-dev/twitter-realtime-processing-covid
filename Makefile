@@ -1,58 +1,73 @@
-ifeq ($(OS), Windows_NT)
-	DOCKER_CONTAINER_LIST = $(shell docker ps -aq)
+MAKEFLAGS += --warn-undefined-variables
+
+# It's necessary to set this because some environments don't link sh -> bash.
+SHELL := /usr/bin/env bash
+
+##################################################
+# HELPER
+##################################################
+
+.PHONY: help
+help:
+	@echo ""
+	@echo "****************************************"
+	@echo "* 🤖 Management commands"
+	@echo "* "
+	@echo "* Usage:"
+	@echo "* "
+	@echo "*  🎉 Short commands 🎉"
+	@echo "* "
+	@echo "* 📌 make verify"
+	@echo "* 📌 make global-requirements"
+	@echo "* 📌 make npm-requirements"
+	@echo "* 📌 make version"
+	@echo "* 📌 make install"
+	@echo "* 📌 make scan"
+	@echo "* 📌 make release-debug"
+	@echo "* 📌 make release"
+	@echo "* "
+	@echo "****************************************"
+	@echo ""
+
+##################################################
+# SHORTCUTS
+##################################################
+
+verify:
+ifeq ($(GITHUB_TOKEN),)
+	@echo "ERROR: 🆘 no GITHUB_TOKEN was provided - undefined variable. Exiting." && exit 1
 else
-	DOCKER_CONTAINER_LIST = $(shell docker ps -aq)
+	@echo "==> 🎊 We have a GITHUB_TOKEN!"
 endif
 
-.PHONY: dsp
-dsp:
-	@-docker system prune -af
+global-requirements:
+	@echo "==> 🌐 Checking global requirements..."
+	@command -v git >/dev/null || ( echo "ERROR: 🆘 git binary not found. Exiting." && exit 1)
+	@command -v gitleaks >/dev/null || ( echo "ERROR: 🆘 gitleaks binary not found. Exiting." && exit 1)
+	@echo "==> ✅ Global requirements are met!"
 
-.PHONY: dvp
-dvp:
-	@-docker volume prune -f
+npm-requirements: global-requirements
+	@echo "==> 📜 Checking npm requirements..."
+	@command -v npm >/dev/null || ( echo "ERROR: 🆘 npm binary not found. Exiting." && exit 1)
+	@echo "==> ✅ Package requirements are met!"
 
-.PHONY: dnp
-dnp:
-	@-docker network prune -f
+version: npm-requirements
+	@echo "==> ✨ Git version: $(shell git --version)"
+	@echo "==> ✨ Gitleaks version: $(shell gitleaks --version)"
+	@echo "==> ✨ NPM version: $(shell npm --version)"
 
-.PHONY: ds
-ds:
-	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker stop $(DOCKER_CONTAINER_LIST))
+install: npm-requirements
+	@echo "==> 🔥 NPM install packages..."
+	@npm install
 
-.PHONY: dv
-dv:
-	$(if $(strip $(DOCKER_CONTAINER_LIST)), docker rm $(DOCKER_CONTAINER_LIST))
+scan: global-requirements
+	@echo "==> 🔒 Scan git repo for secrets..."
+	@npm run secrets
 
-.PHONY: clean
-clean: ds dv dvp dnp
+release-debug: install verify
+	@echo "==> 📦 Runnig release debug..."
+	@npm run release-debug
 
-.PHONY: remove
-remove: ds dv dvp dnp dsp
-
-# ==============================================================================
-# DOCKER-COMPOSE
-# ==============================================================================
-
-.PHONY: dcbn
-dcbn:
-	docker-compose build --no-cache
-
-.PHONY: dcub
-dcub:
-	docker-compose up --build
-
-.PHONY: dcubd
-dcubd:
-	docker-compose up --build -d
-
-.PHONY: dcs
-dcs:
-	docker-compose down
-
-.PHONY: dcps
-dcps:
-	docker-compose ps
-
-.PHONY: run
-run: dcps dcs dcubd
+release: install verify
+	@echo "==> 📦 Runnig release..."
+	@npm run release

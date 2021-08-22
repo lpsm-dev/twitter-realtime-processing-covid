@@ -44,7 +44,7 @@ services:
 
   producer:
     container_name: producer
-    env_file: [ "./.env", "./envs/python.env", "./envs/producer.env", "./envs/twitter.env" ]
+    env_file: [ "./.env", "./code/environments/python.env", "./code/environments/producer.env", "./code/environments/twitter.env" ]
     build:
       context: ./${PATH_DOCKERFILE}
       dockerfile: Dockerfile
@@ -62,7 +62,7 @@ services:
 
   consumer:
     container_name: consumer
-    env_file: [ "./.env", "./envs/python.env", "./envs/consumer.env", "./envs/twitter.env" ]
+    env_file: [ "./.env", "./code/environments/python.env", "./code/environments/consumer.env", "./code/environments/twitter.env" ]
     build:
       context: ./${PATH_DOCKERFILE}
       dockerfile: Dockerfile

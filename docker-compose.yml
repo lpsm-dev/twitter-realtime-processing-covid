@@ -104,7 +104,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.2.0
     container_name: kibana
-    env_file: [ "./.env", "./envs/kibana.env" ]
+    env_file: [ "./.env", "./code/environments/kibana.env" ]
     <<: *default-entrypoint-kibana
     ports:
       - target: 5601
@@ -128,7 +128,7 @@ services:
   zookeeper:
     image: zookeeper:3.4.9
     container_name: zookeeper
-    env_file: [ "./.env", "./envs/zookeeper.env" ]
+    env_file: [ "./.env", "./code/environments/zookeeper.env" ]
     ports:
       - target: 2181
         published: 2181
@@ -141,7 +141,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:5.3.0
     container_name: kafka
-    env_file: [ "./.env", "./envs/kafka.env" ]
+    env_file: [ "./.env", "./code/environments/kafka.env" ]
     <<: *default-entrypoint-kafka
     ports:
       - target: 9092
@@ -156,7 +156,7 @@ services:
   kafka-connect:
     image: confluentinc/cp-kafka-connect:5.3.0
     container_name: kafka-connect
-    env_file: [ "./.env", "./envs/kafka-connect.env" ]
+    env_file: [ "./.env", "./code/environments/kafka-connect.env" ]
     networks:
       default:
         aliases:
@@ -177,7 +177,7 @@ services:
   kafka-connect-ui:
     image: landoop/kafka-connect-ui:0.9.4
     container_name: kafka-connect-ui
-    env_file: [ "./.env", "./envs/kafka-connect-ui.env" ]
+    env_file: [ "./.env", "./code/environments/kafka-connect-ui.env" ]
     <<: *default-entrypoint-kafka-connect-ui
     ports:
       - target: 8000
@@ -192,7 +192,7 @@ services:
   kafka-manager:
     image: sheepkiller/kafka-manager:latest
     container_name: kafka-manager
-    env_file: [ "./.env", "./envs/kafka-manager.env" ]
+    env_file: [ "./.env", "./code/environments/kafka-manager.env" ]
     ports:
       - target: 9000
         published: 9000
