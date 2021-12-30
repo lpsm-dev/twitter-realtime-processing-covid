@@ -161,7 +161,8 @@ Copy the file .env-example to a .env file and replace the values inside of it.
 
 Ways to run and use this project.
 
-### 🐋 Development with Docker
+<details><summary>🐋 Development with Docker</summary>
+<p>
 
 Steps to build the Docker Image.
 
@@ -190,8 +191,11 @@ winpty docker.exe container run -it --rm <IMAGE_NAME> <COMMAND>
 ```
 
 For more information, access the [Docker](https://docs.docker.com/) documentation or [this](docs/docker.md).
+</p>
+</details>
 
-### 🐋 Development with Docker Compose
+<details><summary>🐋 Development with Docker Compose</summary>
+<p>
 
 Build and run a docker-compose.
 
@@ -210,6 +214,8 @@ Down all services and delete all images.
 ```bash
 docker-compose down --rmi all
 ```
+</p>
+</details>
 
 ## ➤ Visuals <a name = "visuals"></a>
 
