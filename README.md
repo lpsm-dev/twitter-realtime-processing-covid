@@ -161,7 +161,7 @@ Copy the file .env-example to a .env file and replace the values inside of it.
 
 Ways to run and use this project.
 
-<details><summary>🐋 Development with Docker</summary>
+<details><summary>Docker</summary>
 <p>
 
 Steps to build the Docker Image.
@@ -194,7 +194,7 @@ For more information, access the [Docker](https://docs.docker.com/) documentatio
 </p>
 </details>
 
-<details><summary>🐋 Development with Docker Compose</summary>
+<details><summary>Docker-Compose</summary>
 <p>
 
 Build and run a docker-compose.
