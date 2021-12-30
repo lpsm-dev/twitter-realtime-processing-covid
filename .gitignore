@@ -2,10 +2,6 @@
 # GENERAL
 # ================================================
 
-# Application results
-logs/
-values.yml
-
 # Ignore IDEs
 .idea
 
@@ -18,8 +14,10 @@ values.yml
 # Secrets path
 .secrets/
 
-# Sonar scanner path
-.scannerwork/
+# General reports
+/report
+/reports
+.dccache
 
 # ================================================
 # VSCODE
