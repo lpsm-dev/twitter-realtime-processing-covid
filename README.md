@@ -113,6 +113,8 @@ $ docker network create kafka-network
 
 All set!
 
+## ➤ Description <a name = "description"></a>
+
 ### Sending Data to Elasticsearch
 
 ```bash
@@ -154,6 +156,10 @@ curl -X POST kafka-connect:8083/connectors -H "Content-Type: application/json" -
 We use decouple for strict separation of settings from code. It helps us with to store parameters in .env file and properly convert values to correct data type.
 
 Copy the file .env-example to a .env file and replace the values inside of it.
+
+## ➤ Usage <a name = "usage"></a>
+
+Ways to run and use this project.
 
 ### 🐋 Development with Docker
 
@@ -205,59 +211,45 @@ Down all services and delete all images.
 docker-compose down --rmi all
 ```
 
-### Docker Resources
+## ➤ Visuals <a name = "visuals"></a>
 
-![Alt text](docs/resources.png?raw=true "Docker Resources")
+Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
-### How to contribute
-
->
-> 1. Make a **Fork**.
-> 2. Follow the project organization.
-> 3. Add the file to the appropriate level folder - If the folder does not exist, create according to the standard.
-> 4. Make the **Commit**.
-> 5. Open a **Pull Request**.
-> 6. Wait for your pull request to be accepted.. 🚀
->
-Remember: There is no bad code, there are different views/versions of solving the same problem. 😊
-
-### Add to git and push
-
-You must send the project to your GitHub after the modifications
-
-```bash
-git add -f .
-git commit -m "Added - Fixing somethings"
-git push origin master
-```
-
-### Versioning
-
-- [CHANGELOG](CHANGELOG.md)
-
-### License
-
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
-
-### Author
+## ➤ Author <a name = "author"></a>
 
 👤 **Lucca Pessoa**
 
 Hey!! If you like this project or if you find some bugs feel free to contact me in my channels:
 
-> * Email: luccapsm@gmail.com
+>
+> * Email: lpsm-dev@protonmail.com
 > * Website: https://github.com/lpmatos
-> * Github: [@lpmatos](https://github.com/lpmatos)
-> * LinkedIn: [@luccapessoa](https://www.linkedin.com/in/lucca-pessoa-4abb71138/)
+> * GitHub: [@lpmatos](https://github.com/lpmatos)
+> * GitLab: [@lpmatos](https://gitlab.com/lpmatos)
+>
 
-### Show your support
+## ➤ Versioning <a name = "versioning"></a>
 
-Give a ⭐️ if this project helped you!
+To check the change history, please access the [**CHANGELOG.md**](CHANGELOG.md) file.
 
-### Project Status
+## ➤ Troubleshooting <a name = "troubleshooting"></a>
 
-* ✔️ Finish
+If you have any problems, please contact [me](https://github.com/lpmatos).
 
----
+## ➤ Project status <a name = "project-status"></a>
 
-<p align="center">Feito com ❤️ by <strong>Lucca Pessoa :wave:</p>
+This project is currently undergoing a reorganization 👾.
+
+## ➤ Show your support <a name = "show-your-support"></a>
+
+<div align="center">
+
+Give me a ⭐️ if this project helped you!
+
+<p>
+  <img alt="gif-header" src="https://www.icegif.com/wp-content/uploads/baby-yoda-bye-bye-icegif.gif" width="350px" float="center"/>
+</p>
+
+Made with 💜 by [me](https://github.com/lpmatos) :wave: inspired on [readme-md-generator](https://github.com/kefranabg/readme-md-generator)
+
+</div>
