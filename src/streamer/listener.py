@@ -29,8 +29,6 @@ class TwitterListener(StreamListener):
             self.producer.send_message(tweets_topic, tweet)
             logger.info("Sleeping 3 seconds...")
             sleep(3)
-        except BaseException as error:
-            logger.error(f"BaseException Twitter on data - {error}")
         except Exception as error:
             logger.error(f"Exception Twitter on data - {error}")
         except ProtocolError as error:
