@@ -46,7 +46,7 @@
   </a>
 </p>
 
-### Getting Started
+## ➤ Getting Started
 
 If you want use this repository you need to make a **git clone**:
 
@@ -56,7 +56,7 @@ git clone --depth 1 https://github.com/lpmatos/twitter-realtime-processing-covid
 
 This will give access on your **local machine**.
 
-### Pre-Requisites
+## ➤ Pre-Requisites
 
 To this project you yeed:
 
@@ -66,13 +66,7 @@ To this project you yeed:
 * Elasticsearch.
 * Kiabana
 
-### Built with
-
-- [Python](https://www.python.org/)
-- [Docker](https://docs.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-
-### How to use it?
+## ➤ How to use it?
 
 #### Locale
 
