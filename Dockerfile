@@ -15,5 +15,5 @@ RUN set -ex && apk update && \
       curl=7.79.1-r0
 COPY --from=install [ "/root/.local", "/usr/local" ]
 WORKDIR /usr/src/code
-COPY [ "./code", "." ]
+COPY [ "./src", "." ]
 RUN find ./ -iname "*.py" -type f -exec chmod a+x {} \; -exec echo {} \;;
