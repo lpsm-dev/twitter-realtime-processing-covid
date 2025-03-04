@@ -1,4 +1,4 @@
-colorama==0.4.4
+colorama==0.4.6
 coloredlogs==15.0.1
 emoji==1.4.2
 kafka-python==2.0.2
