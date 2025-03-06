@@ -3,7 +3,7 @@ coloredlogs==15.0.1
 emoji==1.4.2
 kafka-python==2.0.2
 pyfiglet==0.7
-python-json-logger==2.0.2
+python-json-logger==2.0.7
 PyYAML==5.4
 termcolor==1.1.0
 tweepy==3.10.0
