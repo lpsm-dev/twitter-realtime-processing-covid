@@ -175,7 +175,7 @@ services:
     volumes: [ "./logs/connectors:/etc/kafka-connect/jars/" ]
 
   kafka-connect-ui:
-    image: landoop/kafka-connect-ui:0.9.4
+    image: landoop/kafka-connect-ui:0.9.7
     container_name: kafka-connect-ui
     env_file: [ "./.env", "./code/environments/kafka-connect-ui.env" ]
     <<: *default-entrypoint-kafka-connect-ui
