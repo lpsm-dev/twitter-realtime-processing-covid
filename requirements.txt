@@ -4,6 +4,6 @@ emoji==1.4.2
 kafka-python==2.0.2
 pyfiglet==0.7
 python-json-logger==2.0.2
-PyYAML==5.4
+PyYAML==5.4.1
 termcolor==1.1.0
 tweepy==3.10.0
