@@ -139,7 +139,7 @@ services:
     volumes: [ "./logs/zk-single-kafka-single/zookeeper/data:/data", "./logs/zk-single-kafka-single/zookeeper/datalog:/datalog" ]
 
   kafka:
-    image: confluentinc/cp-kafka:5.3.0
+    image: confluentinc/cp-kafka:5.5.12
     container_name: kafka
     env_file: [ "./.env", "./code/environments/kafka.env" ]
     <<: *default-entrypoint-kafka
